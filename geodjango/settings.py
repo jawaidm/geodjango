@@ -11,16 +11,23 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from confy import env, database, read_environment_file
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+read_environment_file(BASE_DIR+"/.env")
+os.environ.setdefault("BASE_DIR", BASE_DIR)
+
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('DEBUG', False)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'j!i)0^rzc(!0!hq(u#jeyw7#^kn4jwg&3!$o59#eg0ip-k1ga6'
+#SECRET_KEY = 'j!i)0^rzc(!0!hq(u#jeyw7#^kn4jwg&3!$o59#eg0ip-k1ga6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,8 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_extensions',
     'django.contrib.gis',
     'world',
+    'weather',
 ]
 
 MIDDLEWARE = [
@@ -77,12 +86,18 @@ WSGI_APPLICATION = 'geodjango.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-         'NAME': 'geodjango',
-         'USER': 'jawaidm',
-    },
+    # Defined in the DATABASE_URL env variable.
+    'default': database.config(),
 }
+
+#DATABASES = {
+#    'default': {
+#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#         'NAME': 'geodjango',
+#         'USER': 'jawaidm',
+#         'PASSWORD': 'test123',
+#    },
+#}
 
 
 # Password validation

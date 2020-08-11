@@ -42,3 +42,6 @@ $ make
 $ sudo make install
 $ cd swig/python/
 $ sudo python setup.py install
+
+# inspect WMF endpoint (from OpenLayers WFS example - works)
+ogr2ogr -f GeoJSON CadastreAddress_Example1.json "https://ahocevar.com/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typename=osm:water_areas&outputFormat=application/json&srsname=EPSG:3857&bbox=-8936653.027920483,5370452.51819444,-8881121.5268713,5393383.626679991,EPSG:3857" OGRGeoJSON -s_srs EPSG:3857 -t_srs EPSG:4326
